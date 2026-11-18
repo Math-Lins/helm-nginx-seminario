@@ -2,6 +2,14 @@
 
 Tema T07 · Helm. Renderizar e instalar um chart próprio simples, alterando um parâmetro de configuração.
 
+## Conteúdo do repositório
+
+```text
+README.md                       Este guia
+chart/                          O chart Helm criado pela equipe (nginx-seminario)
+docs/                           Trabalho em PDF, roteiro de falas e slides
+```
+
 ## Sumário
 
 1. [Objetivo](#objetivo)
@@ -86,16 +94,17 @@ O `values.yaml` traz o valor padrão e o `--set`, na linha de comando, sobrescre
 
 ## Ambiente e versões
 
-A execução foi realizada em Windows 11 Pro 25H2, com Minikube usando o driver Docker Desktop.
+A execução foi realizada em Windows 10 Pro 22H2, com Minikube usando o driver Docker Desktop.
 
-| Componente | Versão registrada |
-|---|---|
-| Helm | 4.3.1 |
-| Minikube | 1.39.0 |
-| kubectl (cliente) | 1.36.1 |
-| Kubernetes (cluster Minikube) | 1.37.0 |
-| Imagem do Nginx | `nginx:1.27.5-alpine` |
-| Docker Engine | 29.8.0 |
+| Componente | Versão | Como conferir |
+|---|---|---|
+| Sistema operacional | Windows 10 Pro 22H2 | `winver` |
+| kubectl (cliente) | 1.34.1 (instalado com o Docker Desktop) | `kubectl version --client` |
+| Kubernetes (cluster Minikube) | 1.37.0 | `kubectl get nodes` |
+| Imagem do Nginx | `nginx:1.27.5-alpine` | `minikube image ls` |
+| Helm | conferir no seu computador | `helm version` |
+| Minikube | conferir no seu computador | `minikube version` |
+| Docker | conferir no seu computador | `docker version` |
 
 O cluster criado para a demonstração informou 2 CPUs e 8000 MB de memória. A primeira inicialização baixa imagens e pode levar alguns minutos.
 
@@ -149,7 +158,7 @@ minikube version
 kubectl version --client
 ```
 
-A versão do Docker Engine registrada neste teste é `29.8.0`. Para registrar também a versão do aplicativo Docker Desktop, abra **About/Sobre** no próprio aplicativo. O comando `docker desktop version --short` mostra a versão do plugin de linha de comando, não a do aplicativo.
+Para registrar a versão do aplicativo Docker Desktop, abra **About/Sobre** no próprio aplicativo.
 
 ### Preparar o cluster local
 
@@ -183,13 +192,14 @@ O nó `minikube` deve aparecer com status `Ready`. Se o computador for reiniciad
 
 ## Executar a demonstração
 
-Extraia o arquivo ZIP do projeto e, no PowerShell, entre na pasta principal (a que contém este README e a pasta `chart`). Ajuste o caminho ao local onde extraiu:
+Baixe o repositório (**Code → Download ZIP**, e extraia) ou clone com Git. Depois, no PowerShell, entre na pasta principal (a que contém este README e a pasta `chart`):
 
 ```powershell
-cd "C:\caminho\para\helm-nginx-seminario"
+git clone https://github.com/Math-Lins/helm-nginx-seminario.git
+cd helm-nginx-seminario
 ```
 
-Os resultados abaixo descrevem o que deve aparecer; a formatação exata das tabelas pode variar entre versões. Confirme-os em um ensaio antes da apresentação.
+Os resultados abaixo foram observados em um ensaio completo neste computador; a formatação exata das tabelas pode variar entre versões.
 
 ### 1. Conferir o chart
 
@@ -216,7 +226,7 @@ kubectl get deployment demo-nginx
 kubectl get pods -l app.kubernetes.io/instance=demo
 ```
 
-Resultado esperado: `READY 1/1` no Deployment e um pod com status `Running`.
+Resultado esperado: `STATUS: deployed` e `Install complete` no `helm install`, `READY 1/1` no Deployment e um pod com status `Running`.
 
 ### 4. Alterar para duas cópias
 
@@ -227,7 +237,7 @@ kubectl get deployment demo-nginx
 kubectl get pods -l app.kubernetes.io/instance=demo
 ```
 
-Resultado esperado: `READY 2/2` no Deployment e dois pods com status `Running`. O `helm upgrade` atualiza a instalação chamada `demo`; não é necessário instalar o chart outra vez.
+Resultado esperado: `REVISION: 2` e `Upgrade complete` no `helm upgrade`, `READY 2/2` no Deployment e dois pods com status `Running`. O `helm upgrade` atualiza a instalação chamada `demo`; não é necessário instalar o chart outra vez.
 
 Para mostrar o valor que ficou salvo na instalação:
 
