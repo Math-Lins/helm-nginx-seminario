@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nginx-seminario
+description: Chart simples para demonstrar renderizacao e instalacao com Helm
+type: application
+version: 0.1.0
+appVersion: "1.27.5"
