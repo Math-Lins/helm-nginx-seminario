@@ -7,7 +7,7 @@ Tema T07 · Helm. Renderizar e instalar um chart próprio simples, alterando um 
 ```text
 README.md                       Este guia
 chart/                          O chart Helm criado pela equipe (nginx-seminario)
-docs/                           Trabalho em PDF, roteiro de falas e slides
+docs/                           Trabalho em PDF e slides
 ```
 
 ## Sumário
